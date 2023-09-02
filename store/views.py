@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Product
+from size.models import Produt_size
 from category.models import Category
 from django.core.paginator import Paginator
 
@@ -13,16 +14,17 @@ def store(request, category_slug=None):
         products = Product.objects.filter(is_available=True, category=category).order_by('product_name')
 
         page = request.GET.get("page")
-        paginator = Paginator(products, 1)
+        paginator = Paginator(products, 2)
         product_page = paginator.get_page(page)
     else:
         products = Product.objects.filter(is_available=True).order_by('product_name')
 
         page = request.GET.get("page")
-        paginator = Paginator(products, 3)
+        paginator = Paginator(products, 4)
         product_page = paginator.get_page(page)
     categories = Category.objects.all()
-    context = {"products": product_page, "categories": categories}
+    size = Produt_size.objects.all()
+    context = {"products": product_page, "categories": categories, "size": size }
     return render(request, "store.html", context)
 
 

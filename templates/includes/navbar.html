@@ -13,8 +13,8 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul style=" align-items:center;" class="nav">
-                        <li class="scroll-to-section"><a href="#men">Home</a></li>
-                        <li class="scroll-to-section"><a href="#women"> Store </a></li>
+                        <li class="scroll-to-section"><a href="{% url 'home' %}">Home</a></li>
+                        <li class="scroll-to-section"><a href="{% url 'store' %}"> Store </a></li>
                         {% if user.id is None %}
                         <div class="widget-header">
                         <small class="title text-muted">Welcome guest!</small>
