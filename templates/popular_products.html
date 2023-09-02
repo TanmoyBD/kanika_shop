@@ -34,13 +34,14 @@
                         <div>
                             <h4 class=" text-wrap">{{item.product_name}}</h4>
                             <span>${{item.price}}</span>
-                            <ul class="stars d-flex">
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                            </ul>
+                            <div class="product-rating">
+                                <span>Rating: </span>
+                                <span class="fa fa-star {% if product_rating >= 1 %}checked{% endif %}"></span>
+                                <span class="fa fa-star {% if product_rating >= 2 %}checked{% endif %}"></span>
+                                <span class="fa fa-star {% if product_rating >= 3 %}checked{% endif %}"></span>
+                                <span class="fa fa-star {% if product_rating >= 4 %}checked{% endif %}"></span>
+                                <span class="fa fa-star {% if product_rating == 5 %}checked{% endif %}"></span>
+                            </div>
                         </div>
                         <div class="">
                             <a href="" style="width:150px; text-align:center;" class="button border-0 rounded text-light bg-success d-block m-1" >Add to cart</a>

@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product
+from .models import Product,Reviews
 from django.urls import reverse
 from django.contrib import messages
 from category.models import Category
 from django.core.paginator import Paginator
-from .forms import MyForm
+from .forms import MyForm,ReviewModelForm
 from django.db.models import Q
 
 
@@ -31,16 +31,6 @@ def store(request, category_slug=None):
 
 
 
-from django.core.paginator import Paginator
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from .models import Product
-from .forms import MyForm
-
-from django.core.paginator import Paginator
-from django.shortcuts import render
-from .models import Product  # Import your Product model here
-from .forms import MyForm  # Import your form here
 
 def FilterItems(request):
     products = Product.objects.filter(is_available=True)  # Initialize with an empty queryset
@@ -72,9 +62,33 @@ def FilterItems(request):
     return render(request, 'filter_items.html', {'form': form, **context})
 
 
-def product_detail(request,product_id):
-    product = Product.objects.get(id=product_id)
-    print(product.id)
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    reviews = Reviews.objects.filter(product=product)
+    
+    average_rating = 0 
+    
+    if reviews.exists():
+        total_rating = sum([review.rating for review in reviews])
+        average_rating = total_rating / len(reviews)
 
-    return render(request, "product_detail.html", {'product':product})
+    if request.method == 'POST':
+        form = ReviewModelForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.product = product
+            review.user = request.user
+            review.save()
+            return redirect('product_detail', product_id=product_id)
+    
+    
+    else:
+        form = ReviewModelForm()
+    
+
+    return render(request, 'product_detail.html', {'average_rating':average_rating,'reviews':reviews,'product': product, 'form': form})
+
+
+
+
 

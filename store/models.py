@@ -1,9 +1,8 @@
 from django.db import models
-
-# Create your models here.
-from django.db import models
 from category.models import Category
-# Create your models here.
+from django.contrib.auth.models import User
+
+
 class Product(models.Model):
     product_name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200)
@@ -19,3 +18,14 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
+
+class Reviews(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Associate the review with a user
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)  # Associate the review with a product
+    rating = models.PositiveIntegerField(default=5)  # You can change the default rating as needed
+    comment = models.TextField(max_length=1000)  # Comment text for the review
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Review by {self.user.username} for {self.product.product_name}"

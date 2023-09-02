@@ -15,7 +15,8 @@
                   <h5 class="card-title"> {{product.product_name}}</h5>
                   <p class="card-text">{{product.description}}</p>
                   <p class="card-text">{{product.price}}</p>
-                  <a href="#" class="btn btn-primary">Add to Cart</a>
+                  <a style="background-color: #4ac710;"  href="#" class="btn btn-primary">Add to Cart</a>
+                  <a style="background-color: #22806d;"  href="{% url 'product_detail' product_id=product.id %}" class="btn text-light ">Product Details</a>
               </div>
           </div>
         </div>
